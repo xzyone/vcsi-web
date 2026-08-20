@@ -1,0 +1,16 @@
+services:
+  vcsi-web:
+    build: .
+    container_name: vcsi-web
+    ports:
+      - "8080:8000"
+    environment:
+      TZ: Asia/Shanghai
+      VCSI_INPUT_ROOTS: /media
+      VCSI_OUTPUT_ROOTS: /output
+    volumes:
+      # 修改为你的宿主机视频目录（建议只读）
+      - ./media:/media:ro
+      # 修改为你的宿主机输出目录
+      - ./output:/output
+    restart: unless-stopped

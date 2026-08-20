@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>vcsi-web</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>vcsi-web</h1>
+      <p>Video Contact Sheet 图形界面</p>
+    </div>
+    <span id="health" class="status">连接中…</span>
+  </header>
+
+  <main class="layout">
+    <section class="panel span-2">
+      <div class="section-head">
+        <div><h2>1. 选择视频</h2><p>仅显示容器挂载目录中的常见视频文件。</p></div>
+        <button id="clearFiles" class="ghost" type="button">清空选择</button>
+      </div>
+      <div class="browser">
+        <div class="browser-toolbar">
+          <button id="inputUp" class="ghost" type="button">↑ 上一级</button>
+          <select id="inputRoot" aria-label="输入根目录"></select>
+          <code id="inputPath"></code>
+        </div>
+        <div id="inputEntries" class="entries"></div>
+      </div>
+      <div class="selected-wrap">
+        <strong>已选 <span id="selectedCount">0</span> 个文件</strong>
+        <div id="selectedFiles" class="chips"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><h2>2. 输出目录</h2><p>生成的图片会写入这里。</p></div></div>
+      <div class="browser compact">
+        <div class="browser-toolbar">
+          <button id="outputUp" class="ghost" type="button">↑ 上一级</button>
+          <select id="outputRoot" aria-label="输出根目录"></select>
+        </div>
+        <code id="outputPath"></code>
+        <div id="outputEntries" class="entries output-entries"></div>
+      </div>
+      <div class="selected-output">当前输出：<code id="selectedOutput"></code></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><h2>3. 常用参数</h2><p>常用 vcsi 参数已映射为表单。</p></div></div>
+      <div class="form-grid">
+        <label>宽度 <input id="width" type="number" min="320" max="12000" value="1500"></label>
+        <label>网格 <input id="grid" type="text" value="4x4" placeholder="4x4"></label>
+        <label>截图数量 <input id="numSamples" type="number" min="1" placeholder="自动"></label>
+        <label>格式 <select id="format"><option>jpg</option><option>png</option><option>webp</option><option>jpeg</option></select></label>
+        <label>质量 <input id="quality" type="number" min="0" max="100" value="95"></label>
+        <label>时间戳位置 <select id="timestampPosition"><option value="se">右下</option><option value="sw">左下</option><option value="ne">右上</option><option value="nw">左上</option><option value="center">中间</option><option value="north">上</option><option value="south">下</option></select></label>
+        <label>Metadata <select id="metadataPosition"><option value="top">顶部</option><option value="bottom">底部</option><option value="hidden">隐藏</option></select></label>
+        <label>跳过开头 % <input id="startDelay" type="number" min="0" max="99" step="0.1" value="7"></label>
+        <label>跳过结尾 % <input id="endDelay" type="number" min="0" max="99" step="0.1" value="7"></label>
+      </div>
+      <div class="checks">
+        <label><input id="showTimestamp" type="checkbox" checked> 显示时间戳</label>
+        <label><input id="accurate" type="checkbox"> Accurate</label>
+        <label><input id="fast" type="checkbox"> Fast</label>
+        <label><input id="noOverwrite" type="checkbox"> 不覆盖已有文件</label>
+      </div>
+    </section>
+
+    <section class="panel span-2">
+      <details>
+        <summary>高级参数</summary>
+        <div class="advanced-grid">
+          <label>背景色 <input id="backgroundColor" type="text" value="000000FF"></label>
+          <label>Metadata 字色 <input id="metadataFontColor" type="text" value="FFFFFFFF"></label>
+          <label>时间戳字色 <input id="timestampFontColor" type="text" value="FFFFFFFF"></label>
+          <label>时间戳背景 <input id="timestampBackgroundColor" type="text" value="000000AA"></label>
+          <label>时间戳边框 <input id="timestampBorderColor" type="text" value="000000FF"></label>
+          <label>Frame type <select id="frameType"><option value="">默认</option><option>I</option><option>B</option><option>P</option><option>key</option></select></label>
+          <label>Interval <input id="interval" type="text" placeholder="例如 5m"></label>
+          <label>Manual timestamps <input id="manualTimestamps" type="text" placeholder="1:11:11.111,2:22:22.222"></label>
+          <label class="wide">Timestamp format <input id="timestampFormat" type="text" value="{TIME}"></label>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel span-2">
+      <div class="section-head"><div><h2>4. 命令预览</h2><p>由后端生成，仅允许受支持参数；执行时不会使用 shell。</p></div><button id="previewBtn" class="ghost" type="button">刷新预览</button></div>
+      <pre id="commandPreview">请选择视频文件。</pre>
+    </section>
+
+    <section class="panel span-2 run-panel">
+      <button id="runBtn" class="primary" type="button">▶ 开始生成</button>
+      <span id="runMessage"></span>
+    </section>
+
+    <section class="panel span-2">
+      <div class="section-head"><div><h2>任务日志</h2><p id="jobStatus">尚未开始任务。</p></div></div>
+      <pre id="jobLog" class="log"></pre>
+      <div id="outputs" class="output-gallery"></div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

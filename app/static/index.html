@@ -52,14 +52,22 @@
       <div class="section-head"><div><h2>3. 常用参数</h2><p>常用 vcsi 参数已映射为表单。</p></div></div>
       <div class="form-grid">
         <label>宽度 <input id="width" type="number" min="320" max="12000" value="1500"></label>
-        <label>网格 <input id="grid" type="text" value="4x4" placeholder="4x4"></label>
+        <div class="compound-field">
+          <span class="field-label">网格（X × Y）</span>
+          <div class="grid-pair">
+            <input id="gridColumns" type="number" min="1" max="50" value="4" aria-label="网格 X">
+            <span class="grid-sep">×</span>
+            <input id="gridRows" type="number" min="1" max="50" value="4" aria-label="网格 Y">
+          </div>
+          <div class="field-help">例如 5 × 4 会生成 vcsi 参数 5x4。</div>
+        </div>
         <label>截图数量 <input id="numSamples" type="number" min="1" placeholder="自动"></label>
         <label>格式 <select id="format"><option>jpg</option><option>png</option><option>webp</option><option>jpeg</option></select></label>
         <label>质量 <input id="quality" type="number" min="0" max="100" value="95"></label>
         <label>时间戳位置 <select id="timestampPosition"><option value="se">右下</option><option value="sw">左下</option><option value="ne">右上</option><option value="nw">左上</option><option value="center">中间</option><option value="north">上</option><option value="south">下</option></select></label>
         <label>Metadata <select id="metadataPosition"><option value="top">顶部</option><option value="bottom">底部</option><option value="hidden">隐藏</option></select></label>
-        <label>跳过开头 % <input id="startDelay" type="number" min="0" max="99" step="0.1" value="7"></label>
-        <label>跳过结尾 % <input id="endDelay" type="number" min="0" max="99" step="0.1" value="7"></label>
+        <label>跳过开头 % <input id="startDelay" type="number" min="0" max="99" step="1" value="7"></label>
+        <label>跳过结尾 % <input id="endDelay" type="number" min="0" max="99" step="1" value="7"></label>
       </div>
       <div class="checks">
         <label><input id="showTimestamp" type="checkbox" checked> 显示时间戳</label>

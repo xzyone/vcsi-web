@@ -12,8 +12,8 @@ class VcsiOptions(BaseModel):
     show_timestamp: bool = True
     image_format: Literal["jpg", "jpeg", "png", "webp"] = "jpg"
     quality: int = Field(default=95, ge=0, le=100)
-    start_delay_percent: float = Field(default=7, ge=0, le=99)
-    end_delay_percent: float = Field(default=7, ge=0, le=99)
+    start_delay_percent: int = Field(default=7, ge=0, le=99)
+    end_delay_percent: int = Field(default=7, ge=0, le=99)
     timestamp_position: Literal["north", "south", "east", "west", "ne", "nw", "se", "sw", "center"] = "se"
     metadata_position: Literal["top", "bottom", "hidden"] = "top"
     background_color: str = "000000FF"
@@ -35,10 +35,10 @@ class VcsiOptions(BaseModel):
         parts = value.lower().split("x")
         if len(parts) != 2 or not all(part.isdigit() for part in parts):
             raise ValueError("Grid must look like 4x4")
-        rows, cols = (int(p) for p in parts)
-        if rows < 1 or cols < 1 or rows > 50 or cols > 50:
+        columns, rows = (int(p) for p in parts)
+        if columns < 1 or rows < 1 or columns > 50 or rows > 50:
             raise ValueError("Grid values must be between 1 and 50")
-        return f"{rows}x{cols}"
+        return f"{columns}x{rows}"
 
     @field_validator(
         "background_color",

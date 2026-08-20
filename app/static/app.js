@@ -105,17 +105,25 @@ async function browseOutput(path = null) {
   }
 }
 
+function integerValue(id) {
+  return parseInt($(id).value, 10);
+}
+
+function currentGridValue() {
+  return `${integerValue("gridColumns")}x${integerValue("gridRows")}`;
+}
+
 function optionsPayload() {
   const optionalNumber = $("numSamples").value.trim();
   return {
-    width: Number($("width").value),
-    grid: $("grid").value.trim(),
-    num_samples: optionalNumber ? Number(optionalNumber) : null,
+    width: integerValue("width"),
+    grid: currentGridValue(),
+    num_samples: optionalNumber ? parseInt(optionalNumber, 10) : null,
     show_timestamp: $("showTimestamp").checked,
     image_format: $("format").value,
-    quality: Number($("quality").value),
-    start_delay_percent: Number($("startDelay").value),
-    end_delay_percent: Number($("endDelay").value),
+    quality: integerValue("quality"),
+    start_delay_percent: integerValue("startDelay"),
+    end_delay_percent: integerValue("endDelay"),
     timestamp_position: $("timestampPosition").value,
     metadata_position: $("metadataPosition").value,
     background_color: $("backgroundColor").value.trim(),
